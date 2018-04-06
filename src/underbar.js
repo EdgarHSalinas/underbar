@@ -102,7 +102,26 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
-  };
+    var  results = [];
+      var seen = [];
+      _.each(array, function(value, i, array){
+        var computed = value;
+        if (isSorted) {
+          if (seen !== computed) {
+            results.push(value);
+            seen = computed;
+          }
+        } else if (value) {
+          if (!seen.includes(value)) {
+            seen.push(value);
+            results.push(value);
+          }
+        } else if (!results.includes(value)) {
+            results.push(value);
+        }
+      });
+      return results;
+    };
 
 
   // Return the results of applying an iterator to each element.
