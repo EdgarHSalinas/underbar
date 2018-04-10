@@ -137,8 +137,8 @@
   //           seen.push(value);
   //           results.push(value);
   //         }
-  //       } else if (!results.includes(value)) {
-  //           results.push(value);
+  //       } else if (!results.includes(value)) {  // Why do we need this extra else if
+  //           results.push(value); 
   //       }
   //     });
   //     return results;
@@ -196,6 +196,8 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
+
+
   _.reduce = function(collection, iterator, accumulator) {
     var initialize = 0;
     _.each(collection, function(value, i){
@@ -226,6 +228,24 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    
+    iterator = iterator || _.identity;
+
+    if (collection.length === 0) {
+      return true;
+    }
+
+    return _.reduce(collection, function(predicate, item) {
+      if (!predicate) {
+        return false;
+      }
+      
+      return !!(iterator(item)); // force to boolean
+      
+    }, true);
+
+      
+   
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
